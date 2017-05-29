@@ -22,7 +22,7 @@ class Index extends Base
             $name = array();
             foreach ($strs as $v)
             {
-                $vs = explode('-', $v);
+                $vs = explode('^', $v);
                 if ($vs[0] == 'value_one')
                 {
                     if (!empty($vs[1]))
@@ -163,7 +163,7 @@ class Index extends Base
             $name = array();
             foreach ($strs as $v)
             {
-                $vs = explode('-', $v);
+                $vs = explode('^', $v);
                 if ($vs[0] == 'value_one')
                 {
                     if (!empty($vs[1]))

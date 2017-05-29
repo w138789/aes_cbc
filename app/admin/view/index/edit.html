@@ -186,7 +186,7 @@
     $("#submit").click(function () {
         var stock = '';
         $("input[name='project_name'],input[name='id'],input[name='app_one'],input[name='value_one'],input[name='app_two'],input[name='value_two'],input[name='app_three'],input[name='value_three']").each(function () {
-            stock = stock + '|' + $(this).attr('name') + '-' + $(this).val();
+            stock = stock + '|' + $(this).attr('name') + '^' + $(this).val();
         });
         var data = {
             project_id: {$project_id},
