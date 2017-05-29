@@ -9,8 +9,13 @@ class AppName extends Model
     {
         $this->saveAll($data);
     }
-    function updateAll($data)
+    function addOne($data)
     {
-        $this->saveAll($data);
+        $this->insert($data);
+    }
+    function updateOne($data,$id)
+    {
+        $this->where($id)
+        ->update($data);
     }
 }

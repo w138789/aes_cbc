@@ -108,14 +108,14 @@
 
 
             <h2 class="sub-header">{$app_name}</h2>
-            {foreach name='$app_names' item='v'}
             <form class="form-inline">
                 <div class="form-group">
                     <label>ProjectName</label>
                     <input type="text" name="project_name" value="{$app_name}" class="form-control"
                            placeholder="project_name">
-                    <input type="hidden" name="id" value="{$v.id}">
                 </div>
+                {foreach name='$app_names' item='v'}
+                <input type="hidden" name="id" value="{$v.id}">
                 <div class="app1">
                     <div class="form-group">
                         <label>appOne</label>
@@ -174,9 +174,10 @@
         app_num++;
         var new_div = $('.app1').clone();
         new_div.attr('class', 'app' + app_num);
-        new_div.children('button').attr('class', 'btn btn-default del')
-        new_div.children('button').attr('onclick', 'del(this)')
-        new_div.children('button').text('-')
+        new_div.children('button').attr('class', 'btn btn-default del');
+        new_div.children('button').attr('onclick', 'del(this)');
+        new_div.children('button').text('-');
+        new_div.children('div').children('input').attr('value','');
         $('.form-inline').append(new_div);
         return false;
     })

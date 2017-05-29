@@ -213,13 +213,23 @@ class Index extends Base
                         return '没有内容';
                     }
                     unset($name['project_name']);
-                    //$name['project_id'] = $projectId;
-                    $s    = '';
-                    $aa[] = $name;
+                    $name['project_id'] = $project_id;
+                    $s                  = '';
+                    $aa[]               = $name;
+                    unset($name['id']);
                 }
             }
-
-            model('AppName')->updateAll($aa);
+            foreach ($aa as $k => $v)
+            {
+                if (array_key_exists('id', $v) && $v['id']> 0)
+                {
+                    $where['id'] = $v['id'];
+                    model('AppName')->updateOne($v, $where);
+                } else
+                {
+                    model('AppName')->addOne($v);
+                }
+            }
             return $aa;
         }
     }
