@@ -1,6 +1,6 @@
 <?php
-return[
-    'CheckAuth'=> [
+return [
+    'CheckAuth' => [
         'app\\admin\\behavior\\UserCheck',
     ]
 ];

@@ -105,46 +105,23 @@
                     <span class="text-muted">Something else</span>
                 </div>
             </div>-->
-
-            <h2 class="sub-header">App Add</h2>
-
-            <form class="form-inline">
-                <div class="form-group">
-                    <label>ProjectName</label>
-                    <input type="text" name="project_name" class="form-control" placeholder="project_name">
-                </div>
-                <div class="app1">
-                    <div class="form-group">
-                        <label>appOne</label>
-                        <input type="text" name="app_one" class="form-control" placeholder="AppName">
-                    </div>
-                    <div class="form-group">
-                        <label>valueOne</label>
-                        <input type="text" name="value_one" class="form-control" placeholder="Value">
-                    </div>
-                    <div class="form-group">
-                        <label>appTwo</label>
-                        <input type="text" name="app_two" class="form-control" placeholder="AppName">
-                    </div>
-                    <div class="form-group">
-                        <label>valueTwo</label>
-                        <input type="text" name="value_two" class="form-control" placeholder="Value">
-                    </div>
-                    <div class="form-group">
-                        <label>appThree</label>
-                        <input type="text" name="app_three" class="form-control" placeholder="AppName">
-                    </div>
-                    <div class="form-group">
-                        <label>valueThree</label>
-                        <input type="text" name="value_three" class="form-control" placeholder="Value">
-                    </div>
-                    <button style="float: right" class="btn btn-default add">+</button>
-                </div>
-            </form>
-
             <div>
-                <button id="submit" class="btn btn-primary btn-lg btn-block">确认提交</button>
+                <div class="">
+                    <h2 class="sub-header">{$app_name}</h2>
+                </div>
+                <div><a href="/index.php/admin/index/edit/project_id/{$project_id}">修改</a></div>
             </div>
+
+
+
+            {foreach name='app_names' item='v'}
+            <div class="col-md-3">{if $v.app_one}{$v.app_one}{else}Null{/if}</div>
+            <div class="col-md-9">{if $v.value_one}{$v.value_one}{else}Null{/if}</div>
+            <div class="col-md-3">{if $v.app_two}{$v.app_two}{else}Null{/if}</div>
+            <div class="col-md-9">{if $v.value_two}{$v.value_two}{else}Null{/if}</div>
+            <div class="col-md-3">{if $v.app_three}{$v.app_three}{else}Null{/if}</div>
+            <div class="col-md-9">{if $v.value_three}{$v.value_three}{else}Null{/if}</div>
+            {/foreach}
         </div>
     </div>
 </div>
@@ -177,10 +154,10 @@
     $("#submit").click(function () {
         var stock = '';
         $("input[name='project_name'],input[name='app_one'],input[name='value_one'],input[name='app_two'],input[name='value_two'],input[name='app_three'],input[name='value_three']").each(function () {
-            stock = stock+'|'+$(this).attr('name') + '-' + $(this).val();
+            stock = stock + '|' + $(this).attr('name') + '-' + $(this).val();
         });
         var data = {
-            str:stock,
+            str: stock,
         };
 //        alert(stock)
         $.ajax({

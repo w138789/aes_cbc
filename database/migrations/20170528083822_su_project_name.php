@@ -3,7 +3,7 @@
 use think\migration\Migrator;
 use think\migration\db\Column;
 
-class User extends Migrator
+class SuProjectName extends Migrator
 {
     /**
      * Change Method.
@@ -26,22 +26,13 @@ class User extends Migrator
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    /*public function change()
+    public function change()
     {
-        $table = $this->table('user');
-        $table->addColumn('user_id','integer',array('limit'=> 1, 'default'=> 1, 'comment'=>'用户id'))
-            ->addColumn('name', 'string')
+        //创建项目总表
+        $this->table('project_name', array('id' => 'project_id', 'engine' => 'MyISAM', 'comment' => '项目名称'))
+            ->addColumn('project_name', 'string')
+            ->addColumn('create_time', 'timestamp', array('default' => 'CURRENT_TIMESTAMP'))
+            ->addColumn('update_time', 'timestamp', array('default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'))
             ->create();
-    }*/
-
-    public function up()
-    {
-        $rows = $this->query('SELECT * FROM su');
-        return $rows;
-    }
-
-    public function down()
-    {
-        //$this->dropTable('su');
     }
 }
