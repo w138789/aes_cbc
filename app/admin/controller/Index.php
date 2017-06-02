@@ -221,7 +221,7 @@ class Index extends Base
             }
             foreach ($aa as $k => $v)
             {
-                if (array_key_exists('id', $v) && $v['id']> 0)
+                if (array_key_exists('id', $v) && $v['id'] > 0)
                 {
                     $where['id'] = $v['id'];
                     model('AppName')->updateOne($v, $where);

@@ -20,9 +20,10 @@ class Login extends Controller
         }
     }
 
-    public function UserCheck($userName, $password)
+    public function UserCheck($userName, $password, $mailValidate)
     {
-        if ($userName == 'su' && $password == '123456')
+        $mailValidates = session::pull('mailValidate');
+        if ($userName == 'su' && $password == '123456' && !empty($mailValidate) && $mailValidates == $mailValidate)
         {
             session::set('name', 'su');
             //return session::get('name');
@@ -39,6 +40,14 @@ class Login extends Controller
         //return session::get('name');
         $this->success('退出成功', 'login/index');
 
+    }
+
+    public function sendMail()
+    {
+        $text = rand('1000', '9999');
+        session::set('mailValidate', $text);
+        $result = send_mail($text);
+        return $result;
     }
 
 }

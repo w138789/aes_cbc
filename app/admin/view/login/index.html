@@ -35,12 +35,15 @@
 
 <div class="container">
 
-    <form class="form-signin" action="UserCheck">
+    <form class="form-signin" action="UserCheck" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" name="userName" id="inputUserName" class="form-control" placeholder="userName" required>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <label for="inputPassword" class="sr-only">mailValidate</label>
+        <input type="text" name="mailValidate" class="form-control" placeholder="mailValidate">
+        <a href="javascript:;" onclick="sendMail()">发送邮件</a>
         <div class="checkbox">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
@@ -53,6 +56,16 @@
 
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/jquery.js"></script>
 <script src="/js/ie10-viewport-bug-workaround.js"></script>
+<script>
+    function sendMail() {
+        $.ajax({
+            url: "sendMail", success: function (result) {
+                alert('发送成功');
+            }
+        });
+    }
+</script>
 </body>
 </html>
