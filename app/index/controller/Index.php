@@ -20,4 +20,10 @@ class Index extends Controller
         $result = send_mail_qq($string);
         return $result;
     }
+
+    public function remind()
+    {
+        $string = '微信原生支付';
+        send_mail_qq($string);
+    }
 }
