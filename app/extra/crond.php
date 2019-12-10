@@ -6,7 +6,7 @@
 $crond_list = array(
     //每分钟
     '*' => [
-        'app\index\controller\Index::remind',
+        //'app\index\controller\Index::remind',
     ],
 
     '20:00' => ['app\index\controller\Index::weather'],  //每天某时
