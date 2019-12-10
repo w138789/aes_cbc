@@ -21,7 +21,7 @@ class Index extends Controller
         return $result;
     }
 
-    public function remind()
+    public static function remind()
     {
         $string = '微信原生支付';
         send_mail_qq($string);
