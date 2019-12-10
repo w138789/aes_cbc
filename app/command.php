@@ -16,4 +16,5 @@ return [
     "think\\migration\\command\\migrate\\Status",
     "think\\migration\\command\\seed\\Create",
     "think\\migration\\command\\seed\\Run",
+    "app\\common\\command\\Crond",
 ];
