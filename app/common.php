@@ -28,21 +28,35 @@ function send_mail($text)
 }
 
 // 应用公共文件
-function send_mail_qq($text)
+function send_mail_qq($sendMail, $title, $text)
 {
     $smtpserver     = "smtp.163.com";              //SMTP服务器
     $smtpserverport = 25;                      //SMTP服务器端口
     $smtpusermail   = "sujianxun123456@163.com";      //SMTP服务器的用户邮箱
     $smtpuser       = "sujianxun123456@163.com";         //SMTP服务器的用户帐号
     $smtppass       = "w7026546";                 //SMTP服务器的用户密码
-    $smtpemailto    = "294496623@qq.com";       //发送给谁
-    $mailsubject    = "明天天气";        //邮件主题
+    $smtpemailto    = $sendMail;       //发送给谁
+    $mailsubject    = $title;        //邮件主题
     $mailbody       = $text;      //邮件内容
     $mailtype       = "TXT";                      //邮件格式（HTML/TXT）,TXT为文本邮件
     $smtp           = new SMTP($smtpserver, $smtpserverport, true, $smtpuser, $smtppass);
     $smtp->debug    = false;                     //是否显示发送的调试信息
     $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype);
 
+}
+
+
+// 发送多人邮件
+function send_mail_more($data)
+{
+    $sendMail = $data['sendMail'];
+    $title    = $data['title'];
+    $text     = $data['text'];
+    if (is_array($sendMail)) {
+        foreach ($sendMail as $k => $v) {
+            send_mail_qq($v, $title, $text);
+        }
+    }
 }
 
 /**
@@ -54,16 +68,14 @@ function send_mail_qq($text)
 function httpRequest($url, $data = null, $header = false)
 {
     $curl = curl_init();
-    if ($header == true)
-    {
+    if ($header == true) {
         $this_header = ["Content-Type:text/html;charset=utf-8"];
         curl_setopt($curl, CURLOPT_HTTPHEADER, $this_header);
     }
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-    if (!empty($data))
-    {
+    if (!empty($data)) {
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     }

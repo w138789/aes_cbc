@@ -17,13 +17,30 @@ class Index extends Controller
         $result = httpRequest($url);
         $result = json_decode($result, true);
         $string = '广州 ' . $result['data'][1]['day'] . ' 气温: 最高 ' . $result['data'][1]['tem1'] . ' 最低 ' . $result['data'][1]['tem2'] . ' ' . $result['data'][1]['index'][3]['title'] . ' 等级 ' . $result['data'][1]['index'][3]['level'] . ' ' . $result['data'][1]['index'][3]['desc'];
-        $result = send_mail_qq($string);
+        $data   = [
+            'sendMail' => [
+                '294496623@qq.com',
+            ],
+            'title'    => '明天天气',
+            'text'     => $string,
+        ];
+        send_mail_more($data);
         return $result;
     }
 
+    /**
+     * 每日提醒支付原生微信订单
+     */
     public static function remind()
     {
-        $string = '微信原生支付';
-        send_mail_qq($string);
+        $string = '支付原生微信订单';
+        $data = [
+            'sendMail' => [
+                '294496623@qq.com',
+            ],
+            'title'    => '支付原生微信订单',
+            'text'     => $string,
+        ];
+        send_mail_more($data);
     }
 }
