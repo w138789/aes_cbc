@@ -24,7 +24,6 @@ $.ajax({
         alert('网络错误');
     },
     success: function (res) {
-        console.log(res);
         $('#box').append('<li>City: ' + res.city + '</li>');
         $('#box').append('<li>Weather: ' + res.data[0].wea + '</li>');
         $('#box').append('<li>Air: ' + res.data[0].tem + ' ~ ' + res.data[0].tem1 + '</li>');
