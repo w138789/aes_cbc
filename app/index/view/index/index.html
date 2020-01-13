@@ -27,7 +27,8 @@ $.ajax({
         console.log(res);
         $('#box').append('<li>City: ' + res.city + '</li>');
         $('#box').append('<li>Weather: ' + res.data[0].wea + '</li>');
-        $('#box').append('<li>Tips: ' + res.data[0].air_tips + '</li>');
+        $('#box').append('<li>Air: ' + res.data[0].tem + ' ~ ' + res.data[0].tem1 + '</li>');
+        $('#box').append('<li>Tips: '+ res.data[0].index[3].level +', ' + res.data[0].index[3].desc + res.data[0].air_tips  + '</li>');
         // 遍历数组
         for (var i = 0; i < res.data[0].hours.length; i++) {
             $('#hours').append('<li>' + (i + 1) + ': 时间: ' + res.data[0].hours[i].day + ' 气温: ' + res.data[0].hours[i].tem + ' </li >');
