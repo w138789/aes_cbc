@@ -84,3 +84,89 @@ function httpRequest($url, $data = null, $header = false)
     curl_close($curl);
     return $output;
 }
+
+/**
+ * 文件日志写入
+ * @param array $data 记录内容
+ * @param string $level 一级文件夹名称
+ * @param string $sign 二级文件夹名称
+ * @param bool $execution_allow 是否加入扩展信息
+ */
+function writeLog($data, $level = 'log', $sign = 'default', $execution_allow = true)
+{
+    //创建文件夹
+    if (empty($level)) {
+        $level = 'log';
+    }
+    $dir = ROOT_PATH . 'log/' . $level . '/';
+    if (empty($sign)) {
+        $sign = 'default';
+    }
+    $dir .= $sign . '/';
+    $dir .= date('Ym') . '/';
+    if (!file_exists($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    //计算文件大小
+    $mb      = 1024;
+    $File    = $dir . date('d') . ".txt";
+    $maxSize = $mb * 10;  //1M * x 每个文件大小  10不等于10M
+    if (is_file($File)) {
+        $arrs = glob($dir . date('d') . '{-*,.*}*', GLOB_BRACE);
+        if (count($arrs) > 1) {
+            $file = $dir . date('d') . '-' . (count($arrs) - 1) . ".txt";
+        } else {
+            $file = $arrs[0];
+        }
+
+        $fileSize = filesize($file);
+        $fileSize /= pow($mb, 1);
+        if ($fileSize >= $maxSize) {
+            $file    = explode("/", $file);
+            $file    = $file[count($file) - 1];
+            $file    = explode('-', $file);
+            $file    = count($file) > 1 ? explode('.', $file[1])[0] : 0;
+            $dirFile = $dir . date('d') . '-' . ($file + 1) . '.txt';
+        } else {
+            $dirFile = $file;
+        }
+    } else {
+        $dirFile = $File;
+    }
+
+    //写入文件执行路径
+    $filePath = "[ " . \think\Request::instance()->module() . '/' . \think\Request::instance()->controller() . '/' . \think\Request::instance()->action() . " ] ";
+
+
+    // 获取基本信息
+    $current_uri = '';
+    if (isset($_SERVER['HTTP_HOST'])) {
+        $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    } else {
+        if (isset($_SERVER['argv'])) $current_uri = "cmd:" . implode(' ', $_SERVER['argv']);
+        if (isset($_SERVER['REMOTE_ADDR'])) $current_uri = "socket:" . $_SERVER['REMOTE_ADDR'];
+    }
+    $runtime    = round(microtime(true) - THINK_START_TIME, 10);
+    $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
+    $memory_use = number_format((memory_get_usage() - THINK_START_MEM) / 1024, 2);
+    //组合数据
+    $text  = '';
+    $datas = [
+        'time'           => date('Y-m-d H:i:s'),
+        'execution_data' => [
+            'path'        => $filePath,
+            'current_uri' => $current_uri,
+            'runtime'     => number_format($runtime, 6) . 's',
+            'reqs'        => $reqs . 'req/s',
+            'memory_use'  => $memory_use . 'kb',
+            'file_load'   => count(get_included_files()),
+            'ip'          => request()->ip(),
+            'header'      => request()->header(),
+        ],
+        'request'        => input(),
+    ];
+    if (empty($execution_allow) && isset($datas['execution_data'])) unset($datas['execution_data']);
+    $datas['data'] = $data;
+    $text          .= json_encode($datas, JSON_UNESCAPED_UNICODE);
+    file_put_contents($dirFile, $text . "\r\n", FILE_APPEND);
+}
